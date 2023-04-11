@@ -2,7 +2,6 @@ import {defineUserConfig,defaultTheme} from 'vuepress'
 import { backToTopPlugin } from '@vuepress/plugin-back-to-top'
 import { mediumZoomPlugin } from '@vuepress/plugin-medium-zoom'
 import { searchPlugin } from '@vuepress/plugin-search'
-
 import navbar from "./navber";
 import sidebar from "./sidebar";
 
@@ -25,14 +24,15 @@ export default defineUserConfig({
     theme:defaultTheme({
         home:'/',
         logo:'/logo/toplogo.svg',
-        //默认主体
         navbar,
         sidebar,
         editLinkText:'在github上编辑此页',
-        docsRepo:'https://github.com/18222137497/afflatus-documents',
-        docsBranch:'master',
+        docsRepo:'https://github.com/A-afflatus/afflatus-documents',
+        docsBranch:'main',
         docsDir:'docs',
-        editLinkPattern:':repo/-edit/:branch/:path',
+        editLinkPattern:':repo/blob/:branch/:path',
+        lastUpdatedText:'最近更新',
+        contributorsText:'贡献者',
         sidebarDepth:3,
         notFound:['页面不存在'],
         backToHome:'返回首页'

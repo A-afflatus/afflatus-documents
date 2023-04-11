@@ -13,8 +13,29 @@ const sidebar:SidebarConfig=[
         text: 'Java',
         collapsible:true,
         children:[
-            '/Java/Java模块化',
-            '/Java/JDK17相较于JDK8的变化'
+            {
+              text:'Java模块化',
+              link:'/Java/Java模块化/Java模块化介绍.md',
+              children:[
+                  '/Java/Java模块化/Java模块化介绍',
+                  '/Java/Java模块化/Java模块化关键字',
+
+              ]
+            },
+            {
+                text:'JavaJDK',
+                link:'/Java/JavaJDK/历代JDK特性.md',
+                children:[
+                    '/Java/JavaJDK/历代JDK特性',
+                ]
+            },
+            {
+                text:'Java升级指南',
+                link:'/Java/Java升级指南/JavaRelease升级指南.md',
+                children:[
+                    '/Java/Java升级指南/JavaRelease升级指南',
+                ]
+            },
         ]
     },
 ]

@@ -12,7 +12,7 @@ const navbar:NavbarConfig = [
             {
                 text: 'Java',
                 children:[
-                    '/Java/Java模块化.md',
+                    '/Java/Java模块化介绍.md',
                 ]
             }
         ]
