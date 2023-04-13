@@ -12,7 +12,7 @@ const navbar:NavbarConfig = [
             {
                 text: 'Java',
                 children:[
-                    '/Java/Java模块化介绍.md',
+                    '/Java/Java模块化/Java模块化介绍.md',
                 ]
             }
         ]
@@ -35,7 +35,7 @@ const navbar:NavbarConfig = [
     },
     {
         text:'GitHub',
-        link:'https://github.com/'
+        link:'https://github.com/A-afflatus/afflatus-documents'
     }
 ]
 export default navbar
