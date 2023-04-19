@@ -38,5 +38,34 @@ const sidebar:SidebarConfig=[
             },
         ]
     },
+    {
+        text: '设计模式',
+        collapsible:true,
+        children:[
+            {
+                text:'创建型模式',
+                link:'/设计模式/创建型模式/单例模式.md',
+                children:[
+                    '/设计模式/创建型模式/单例模式',
+                    '/设计模式/创建型模式/原型模式',
+                    '/设计模式/创建型模式/建造者模式',
+                    '/设计模式/创建型模式/工厂模式',
+                    '/设计模式/创建型模式/抽象工厂模式',
+                ]
+            },
+            {
+                text:'结构型模式',
+                // link:'/Java/Java模块化/Java模块化介绍.md',
+                children:[
+                ]
+            },
+            {
+                text:'行为型模式',
+                // link:'/Java/Java模块化/Java模块化介绍.md',
+                children:[
+                ]
+            },
+        ]
+    },
 ]
 export default sidebar
