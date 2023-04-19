@@ -11,10 +11,13 @@ const navbar:NavbarConfig = [
         children:[
             {
                 text: 'Java',
-                children:[
-                    '/Java/Java模块化/Java模块化介绍.md',
-                ]
+                link:'/Java/Java模块化/Java模块化介绍.md'
+            },
+            {
+                text: '设计模式',
+                link: '/设计模式/创建型模式/单例模式.md'
             }
+
         ]
     },
     // 控制元素何时被激活
