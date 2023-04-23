@@ -27,33 +27,8 @@ export default defineUserConfig({
 一加一等于： {{ 1 + 1 }}
 
 <span v-for="i in 3"> span: {{ i }} </span>
+
 > public 是静态字段根地址
 
-@[一个图片](/logo/toplogo.png)
+<Chat/>
 
-> 内置组件
-<CodeGroup>
-  <CodeGroupItem title="PNPM">
-
-```bash:no-line-numbers
-pnpm install
-```
-
-  </CodeGroupItem>
-
-  <CodeGroupItem title="YARN">
-
-```bash:no-line-numbers
-yarn install
-```
-
-  </CodeGroupItem>
-
-  <CodeGroupItem title="NPM" active>
-
-```bash:no-line-numbers
-npm install
-```
-
-  </CodeGroupItem>
-</CodeGroup>
