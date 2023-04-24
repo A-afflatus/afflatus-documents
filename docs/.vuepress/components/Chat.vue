@@ -7,9 +7,7 @@
                         <img src="/logo/toplogo.svg" alt="客服头像"/>
                     </div>
                     <div class="chat-bubble" :class="{ 'user-bubble': item.isUser }">
-                        <div>
-                            {{ item.message }}
-                        </div>
+                        <div v-html="md.render(item.message)"/>
                         <div class="chat-time">{{ item.time }}</div>
                     </div>
                 </div>
@@ -23,7 +21,26 @@
 </template>
 
 <script setup>
-import {ref, nextTick} from 'vue'
+import {ref, nextTick,computed} from 'vue'
+import MarkdownIt from 'markdown-it';
+import hljs from 'highlight.js'
+import 'highlight.js/styles/atom-one-dark.css'
+const md =  new MarkdownIt({
+    linkify:true,
+    typographer:true,
+    highlight: function (str, lang) {
+        if (lang && hljs.getLanguage(lang)) {
+            try {
+                return '<pre class="hljs"><code>' +
+                    hljs.highlightAuto(str).value +
+                    '</code></pre>';
+            } catch (__) {}
+        }
+
+        return '<pre class="hljs"><code>' + md.utils.escapeHtml(str) + '</code></pre>';
+    }
+})
+
 //输入框内容
 const inputValue = ref('');
 //聊天框信息列表
@@ -35,6 +52,7 @@ const chatData = ref([{
 const chatContainer = ref(null)
 //回复状态
 const callFlag = ref(false);
+//发送消息
 const sendMessage = () => {
     //一问一答锁
     if (callFlag.value) {
@@ -55,6 +73,7 @@ const sendMessage = () => {
     //锁
     callFlag.value = true
     //调用ai
+    // fetch("http://localhost:9969/call", {
     fetch("http://8.219.187.147:9969/call", {
         method: 'POST',
         headers: {
@@ -83,6 +102,7 @@ const sendMessage = () => {
     nextTickChatContainer()
 
 }
+//移动到对话底部
 const nextTickChatContainer = () => {
     nextTick(() => {
         chatContainer.value.scrollTop = chatContainer.value.scrollHeight;
@@ -90,7 +110,7 @@ const nextTickChatContainer = () => {
 }
 </script>
 
-<style scoped>
+<style>
 /* 对话弹出动画效果*/
 .list-enter-active, .list-leave-active {
     transition: all 0.5s ease;
@@ -107,7 +127,7 @@ const nextTickChatContainer = () => {
 }
 
 .customer-service {
-    width: 70vh;
+    width: 100%;
     height: 70vh;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -199,5 +219,8 @@ const nextTickChatContainer = () => {
     background-color: #CCCCCC;
     color: #666666;
     cursor: not-allowed;
+}
+pre {
+    background-color: black;
 }
 </style>
