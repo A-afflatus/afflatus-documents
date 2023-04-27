@@ -147,7 +147,7 @@ const nextTickChatContainer = () => {
 }
 </script>
 
-<style>
+<style >
 /* 对话弹出动画效果*/
 .list-enter-active, .list-leave-active {
     transition: all 0.5s ease;
@@ -188,11 +188,12 @@ const nextTickChatContainer = () => {
     height: 40px;
     margin-right: 10px;
 
-    & > img {
-        width: 100%;
-        height: 100%;
-        border-radius: 50%;
-    }
+
+}
+.avatar img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
 }
 
 .chat-bubble {
@@ -201,11 +202,10 @@ const nextTickChatContainer = () => {
     border-radius: 5px;
     background-color: #f6f6f6;
     font-size: 12px;
-
-    &.user-bubble {
-        margin-left: auto;
-        background-color: #e1f5fe;
-    }
+}
+.chat-bubble.user-bubble {
+    margin-left: auto;
+    background-color: #e1f5fe;
 }
 
 .chat-time {
@@ -247,16 +247,15 @@ const nextTickChatContainer = () => {
     background-color: #2196f3;
     color: #fff;
     cursor: pointer;
+}
+.send-btn:hover {
+    background-color: #0c7cd5;
+}
 
-    &:hover {
-        background-color: #0c7cd5;
-    }
-
-    &:disabled:hover {
-        background-color: #CCCCCC;
-        color: #666666;
-        cursor: not-allowed;
-    }
+.send-btn:disabled:hover {
+    background-color: #CCCCCC;
+    color: #666666;
+    cursor: not-allowed;
 }
 
 /*按钮变灰*/
