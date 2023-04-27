@@ -14,17 +14,30 @@
             </TransitionGroup>
         </div>
         <div class="input-container">
+            <input type="text" class="input_file" :value="files?.item(0).name" disabled placeholder="文件区"/>
             <input type="text" class="input" placeholder="请输入内容" v-model="inputValue" @keyup.enter="sendMessage"/>
+            <div class="toolbar">
+                <button class="tool-btn" @click="saying">
+                    <img class="tool-img" v-show="!isListening" src="/tool/black_microphone.svg" >
+                    <img class="tool-img" v-show="isListening" src="/tool/blue_microphone.svg">
+                </button>
+                <button class="tool-btn" @click="open">
+                    <img class="tool-img" src="/tool/photo.svg">
+                </button>
+                <!-- Add more tool buttons here -->
+            </div>
             <button class="send-btn" @click="sendMessage" :disabled="callFlag">发送</button>
         </div>
     </div>
 </template>
 
 <script setup>
-import {ref, nextTick,computed} from 'vue'
+import {nextTick, ref} from 'vue'
 import MarkdownIt from 'markdown-it';
 import hljs from 'highlight.js'
+import {useSpeechRecognition,useFileDialog} from '@vueuse/core'
 import 'highlight.js/styles/atom-one-dark.css'
+
 const md =  new MarkdownIt({
     linkify:true,
     typographer:true,
@@ -40,6 +53,19 @@ const md =  new MarkdownIt({
         return '<pre class="hljs"><code>' + md.utils.escapeHtml(str) + '</code></pre>';
     }
 })
+//语音识别
+const {isListening,result, start, stop} = useSpeechRecognition(
+    {
+        lang:"zh-CN",
+        interimResults: true,
+        continuous: true,
+    }
+)
+//文件对话框
+const { files, open ,reset} = useFileDialog({
+    accept: '.jpg',
+    multiple: false
+})
 
 //输入框内容
 const inputValue = ref('');
@@ -49,6 +75,16 @@ const chatData = ref([{
     message: '您好，有什么可以帮助您？',
     time: new Date().toLocaleString()
 }]);
+//是否开始说话
+const saying = ()=>{
+    console.log(isListening)
+    if (isListening.value){
+        stop()
+        inputValue.value = result.value
+    }else {
+        start()
+    }
+}
 const chatContainer = ref(null)
 //回复状态
 const callFlag = ref(false);
@@ -97,8 +133,9 @@ const sendMessage = () => {
         callFlag.value = false
         nextTickChatContainer()
     });
-    //清除信息并回到底部
+    //清除信息和文件并回到底部
     inputValue.value = ''
+    reset()
     nextTickChatContainer()
 
 }
@@ -183,6 +220,7 @@ const nextTickChatContainer = () => {
     align-items: center;
     height: 20%;
     padding: 10px;
+    gap: 7px;
 }
 
 .input {
@@ -192,9 +230,16 @@ const nextTickChatContainer = () => {
     border-radius: 5px;
     padding: 0 10px;
 }
-
+.input_file {
+    height: 30px;
+    width: 6vh;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 0 10px;
+    text-align: center;
+}
 .send-btn {
-    margin-left: 10px;
+    /*margin-left: 10px;*/
     width: 80px;
     height: 30px;
     border: none;
@@ -222,5 +267,29 @@ const nextTickChatContainer = () => {
 }
 pre {
     background-color: black;
+}
+
+.toolbar {
+    /*display: flex;*/
+    /*align-items: center;*/
+    /*height: 10%;*/
+    /*padding: 10px;*/
+}
+
+.tool-btn {
+    margin-right: 7px;
+    width: 30px;
+    height: 30px;
+    border: none;
+    border-radius: 50%;
+    background-color: #f6f6f6;
+    cursor: pointer;
+}
+
+.tool-btn:hover {
+    background-color: #e1f5fe;
+}
+.tool-img {
+    pointer-events: none;
 }
 </style>

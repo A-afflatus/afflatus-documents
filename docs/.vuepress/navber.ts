@@ -1,10 +1,10 @@
 import {NavbarConfig} from "@vuepress/theme-default";
 
 const navbar:NavbarConfig = [
-    // {
-    //     text: '测试页',
-    //     link:'/HelloWorld.md'
-    // },
+    {
+        text: '测试页',
+        link:'/HelloWorld.md'
+    },
     {
         text: 'AI对话',
         link:'/extra/AI对话.md'

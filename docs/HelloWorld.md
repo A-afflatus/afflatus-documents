@@ -31,4 +31,3 @@ export default defineUserConfig({
 > public 是静态字段根地址
 
 <Chat/>
-
