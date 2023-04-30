@@ -110,7 +110,7 @@ const sendMessage = () => {
     callFlag.value = true
     //调用ai
     // fetch("http://localhost:9969/call", {
-    fetch("http://8.219.187.147:9969/call", {
+    fetch("https://afflatus.wang/api/call", {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
