@@ -44,7 +44,7 @@ const sidebar:SidebarConfig=[
         children:[
             {
                 text:'创建型模式',
-                link:'/设计模式/创建型模式/单例模式.md',
+                collapsible:true,
                 children:[
                     '/设计模式/创建型模式/单例模式',
                     '/设计模式/创建型模式/原型模式',
@@ -55,13 +55,21 @@ const sidebar:SidebarConfig=[
             },
             {
                 text:'结构型模式',
-                // link:'/Java/Java模块化/Java模块化介绍.md',
+                collapsible:true,
                 children:[
+                    '/设计模式/结构型模式/享元模式',
+                    '/设计模式/结构型模式/代理模式',
+                    '/设计模式/结构型模式/外观模式',
+                    '/设计模式/结构型模式/桥接模式',
+                    // '/设计模式/结构型模式/组合模式',
+                    // '/设计模式/结构型模式/装饰器模式',
+                    // '/设计模式/结构型模式/过滤器模式',
+                    // '/设计模式/结构型模式/适配器模式',
                 ]
             },
             {
                 text:'行为型模式',
-                // link:'/Java/Java模块化/Java模块化介绍.md',
+                collapsible:true,
                 children:[
                 ]
             },

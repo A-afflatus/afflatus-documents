@@ -1,0 +1,35 @@
+classDiagram
+    direction BT
+    class Run {
+        + main(String[]) void
+    }
+    class EleShoppingMall {
+        - String userId
+        - EleShopServer eleShopServer
+        - int money
+        + pay() void
+    }
+    class JDPay {
+        + pay(int) void
+    }
+    class Pay {
+        <<Interface>>
+        + pay(int) void
+    }
+
+    class Shopping {
+        # Pay payType
+        + pay() void
+    }
+    class ShoppingMall {
+        - int money
+        + pay() void
+    }
+    class VXPay {
+        + pay(int) void
+    }
+
+    EleShoppingMall  -->  Shopping
+    JDPay  ..>  Pay
+    ShoppingMall  -->  Shopping
+    VXPay  ..>  Pay

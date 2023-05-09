@@ -1,0 +1,20 @@
+classDiagram
+    direction BT
+    class Image {
+        <<Interface>>
+        + display() void
+    }
+    class ProxyImage {
+        + display() void
+    }
+    class RealImage {
+        - loadFromDisk(String) void
+        + display() void
+    }
+    class Run {
+        + main(String[]) void
+    }
+
+    ProxyImage  ..>  Image
+    RealImage  ..>  Image
+    Run --> ProxyImage

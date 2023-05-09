@@ -1,0 +1,27 @@
+---
+title: 享元模式
+---
+classDiagram
+    direction LR
+    class UserDemo{
+        + main:void
+        - DateSourceFactory.getSource()
+    }
+
+    class DateSourceFactory{
+        - sourceMap : HashMap< T extends DateSource>
+        + getSource():< T extends DateSource>
+    }
+    class DateSource{
+        <<abstract>>
+        + Object source
+    }
+    DateSource <|-- TargetDateSource : extends
+    class TargetDateSource{
+        - String remoteUrl
+        - link():void
+    }
+    UserDemo ..> DateSourceFactory
+    DateSourceFactory ..> DateSource
+
+

@@ -1,4 +1,4 @@
-import {defineUserConfig,defaultTheme} from 'vuepress'
+import {defineUserConfig,defaultTheme,type DefaultThemeOptions} from 'vuepress'
 import { backToTopPlugin } from '@vuepress/plugin-back-to-top'
 import { mediumZoomPlugin } from '@vuepress/plugin-medium-zoom'
 import { searchPlugin } from '@vuepress/plugin-search'
@@ -6,11 +6,16 @@ import navbar from "./navber";
 import sidebar from "./sidebar";
 import {registerComponentsPlugin} from "@vuepress/plugin-register-components";
 import { getDirname, path } from '@vuepress/utils'
+import {mermaidPlugin} from "@renovamen/vuepress-plugin-mermaid";
+
+
 // @ts-ignore
 const __dirname = getDirname(import.meta.url)
-//
 // @ts-ignore
-export default defineUserConfig({
+export default defineUserConfig<DefaultThemeOptions>({
+    // extendsMarkdown:(md)=>{
+    //     md.use(mermaidPlugin)
+    // },
     lang: 'zh-CN',
     title: 'Afflatus-Documents',
     description: '生态文档网站',
@@ -24,9 +29,11 @@ export default defineUserConfig({
         searchPlugin({}),
         registerComponentsPlugin({
             componentsDir: path.resolve(__dirname,'./components'),
-        })
+        }),
+        // mermaidPlugin({
+        //     token:"mermaid"
+        // })
     ],
-
     theme:defaultTheme({
         home:'/',
         logo:'/logo/toplogo.svg',
@@ -39,6 +46,8 @@ export default defineUserConfig({
         editLinkPattern:':repo/blob/:branch/:path',
         lastUpdatedText:'最近更新',
         contributorsText:'贡献者',
+        themePlugins:{
+        },
         sidebarDepth:3,
         notFound:['页面不存在'],
         backToHome:'返回首页'

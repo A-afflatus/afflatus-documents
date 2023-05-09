@@ -1,0 +1,34 @@
+classDiagram
+    direction BT
+    class CPU {
+        <<Interface>>
+        + core() String
+    }
+    class Computer {
+        + showCore() String
+        + showResolution() String
+        + showCapacity() String
+        + showVideoMemory() String
+        + getDELL() Computer
+    }
+    class Displayer {
+        <<Interface>>
+        + resolution() String
+    }
+    class GraphicsCard {
+        <<Interface>>
+        + videoMemory() String
+    }
+    class PowerSupply {
+        <<Interface>>
+        + power() String
+    }
+    class Run {
+        + main(String[]) void
+    }
+    CPU ..> Computer
+    Displayer ..> Computer
+    GraphicsCard ..> Computer
+    PowerSupply ..> Computer
+    Run --> Computer : 执行
+
