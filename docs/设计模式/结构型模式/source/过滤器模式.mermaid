@@ -1,0 +1,26 @@
+classDiagram
+    direction BT
+    class Filter~T~ {
+<<Interface>>
++ filter(List~T~) List~T~
+}
+
+class Person {
+- int age
+- String name
+- boolean alive
+}
+class PersonAgeFilter {
++ filter(List~Person~) List~Person~
+}
+class PersonAliveFilter {
++ filter(List~Person~) List~Person~
+}
+class PersonFilter {
+- List~Filter~Person~~ filter
++ filter(List~Person~) List~Person~
+}
+
+PersonAgeFilter  ..>  Filter~T~
+PersonAliveFilter  ..>  Filter~T~
+PersonFilter  ..>  Filter~T~

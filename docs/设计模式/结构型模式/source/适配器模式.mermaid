@@ -1,0 +1,33 @@
+classDiagram
+    direction BT
+    class AdvancedMediaPlayer {
+        <<Interface>>
+        + playMp4(String) void
+        + playVlc(String) void
+    }
+    class AudioPlayer {
+        ~ MediaAdapter mediaAdapter
+        + play(String, String) void
+    }
+
+class MediaAdapter {
+~ AdvancedMediaPlayer advancedMusicPlayer
++ play(String, String) void
+}
+class MediaPlayer {
+<<Interface>>
++ play(String, String) void
+}
+class Mp4Player {
++ playVlc(String) void
++ playMp4(String) void
+}
+class VlcPlayer {
++ playVlc(String) void
++ playMp4(String) void
+}
+
+AudioPlayer  ..>  MediaPlayer
+MediaAdapter  ..>  MediaPlayer
+Mp4Player  ..>  AdvancedMediaPlayer
+VlcPlayer  ..>  AdvancedMediaPlayer

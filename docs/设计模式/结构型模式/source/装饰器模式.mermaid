@@ -1,0 +1,28 @@
+classDiagram
+    direction BT
+    class Iphone {
+        + call() void
+        + record() void
+    }
+    class OldPhone {
+        + note() void
+        + email() void
+        + call() void
+    }
+    class Phone {
+        <<Interface>>
+        + note() void
+        + call() void
+        + email() void
+    }
+    class PhoneDecorator {
+        <<abstract>>
+        # Phone phone
+        + call() void
+        + note() void
+        + email() void
+    }
+
+    Iphone  -->  PhoneDecorator
+    OldPhone  ..>  Phone
+    PhoneDecorator  ..>  Phone
