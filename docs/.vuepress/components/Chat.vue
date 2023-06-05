@@ -109,8 +109,8 @@ const sendMessage = () => {
     //锁
     callFlag.value = true
     //调用ai
-    // fetch("http://localhost:9969/call", {
-    fetch("https://afflatus.wang/api/call", {
+    // fetch("http://localhost:9969/openai/call", {
+    fetch("https://afflatus.wang/api/openai/call", {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
