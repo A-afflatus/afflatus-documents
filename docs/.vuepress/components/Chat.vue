@@ -4,21 +4,21 @@
             <TransitionGroup name="list" tag="div">
                 <div class="chat-item" v-for="(item, index) in chatData" :key="index">
                     <div class="avatar" v-if="!item.isUser">
-                        <img src="/logo/toplogo.svg" alt="客服头像"/>
+                        <img src="/logo/toplogo.svg" alt="客服头像" />
                     </div>
                     <div class="chat-bubble" :class="{ 'user-bubble': item.isUser }">
-                        <div v-html="md.render(item.message)"/>
+                        <div v-html="md.render(item.message)" />
                         <div class="chat-time">{{ item.time }}</div>
                     </div>
                 </div>
             </TransitionGroup>
         </div>
         <div class="input-container">
-            <input type="text" class="input_file" :value="files?.item(0).name" disabled placeholder="文件区"/>
-            <input type="text" class="input" placeholder="请输入内容" v-model="inputValue" @keyup.enter="sendMessage"/>
+            <input type="text" class="input_file" :value="files?.item(0).name" disabled placeholder="文件区" />
+            <input type="text" class="input" placeholder="请输入内容" v-model="inputValue" @keyup.enter="sendMessage" />
             <div class="toolbar">
                 <button class="tool-btn" @click="saying">
-                    <img class="tool-img" v-show="!isListening" src="/tool/black_microphone.svg" >
+                    <img class="tool-img" v-show="!isListening" src="/tool/black_microphone.svg">
                     <img class="tool-img" v-show="isListening" src="/tool/blue_microphone.svg">
                 </button>
                 <button class="tool-btn" @click="open">
@@ -32,37 +32,63 @@
 </template>
 
 <script setup>
-import {nextTick, ref} from 'vue'
+import { nextTick, ref, onMounted } from 'vue'
 import MarkdownIt from 'markdown-it';
 import hljs from 'highlight.js'
-import {useSpeechRecognition,useFileDialog} from '@vueuse/core'
+import { useSpeechRecognition, useFileDialog } from '@vueuse/core'
 import 'highlight.js/styles/atom-one-dark.css'
 
-const md =  new MarkdownIt({
-    linkify:true,
-    typographer:true,
+const md = new MarkdownIt({
+    linkify: true,
+    html: true,
+    typographer: true,
     highlight: function (str, lang) {
         if (lang && hljs.getLanguage(lang)) {
             try {
                 return '<pre class="hljs"><code>' +
                     hljs.highlightAuto(str).value +
                     '</code></pre>';
-            } catch (__) {}
+            } catch (__) { }
         }
 
         return '<pre class="hljs"><code>' + md.utils.escapeHtml(str) + '</code></pre>';
     }
 })
+
+onMounted(() => {
+    // fetch("http://localhost:9969/openai/callRecord", {
+    fetch("https://afflatus.wang/api/openai/callRecord", {
+        method: 'GET',
+        credentials: 'include',
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data)
+            const records = data.result
+            for (const index in records) {
+                const newMessage1 = {
+                    isUser: records[index]?.role == 'user',
+                    message: records[index]?.content,
+                    time: new Date().toLocaleString()
+                }
+                chatData.value.push(newMessage1)
+            }
+        })
+        .catch(error => {
+            console.error(error)
+        })
+})
+
 //语音识别
-const {isListening,result, start, stop} = useSpeechRecognition(
+const { isListening, result, start, stop } = useSpeechRecognition(
     {
-        lang:"zh-CN",
+        lang: "zh-CN",
         interimResults: true,
         continuous: true,
     }
 )
 //文件对话框
-const { files, open ,reset} = useFileDialog({
+const { files, open, reset } = useFileDialog({
     accept: '.jpg',
     multiple: false
 })
@@ -76,12 +102,12 @@ const chatData = ref([{
     time: new Date().toLocaleString()
 }]);
 //是否开始说话
-const saying = ()=>{
+const saying = () => {
     console.log(isListening)
-    if (isListening.value){
+    if (isListening.value) {
         stop()
         inputValue.value = result.value
-    }else {
+    } else {
         start()
     }
 }
@@ -115,29 +141,28 @@ const sendMessage = () => {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({word: reqMsg})
+        credentials: 'include',
+        body: JSON.stringify({ word: reqMsg })
     })
-    .then(response => response.json())
-    .then(data => {
-        console.log(data)
-        const newMessage1 = {
-            isUser: false,
-            message: data?.msg,
-            time: new Date().toLocaleString()
-        }
-        chatData.value.push(newMessage1)
-    })
-    .catch(error => {
-        console.error(error)
-    }).finally(() => {
-        callFlag.value = false
-        nextTickChatContainer()
-    });
+        .then(response => response.json())
+        .then(data => {
+            const newMessage1 = {
+                isUser: false,
+                message: data?.msg,
+                time: new Date().toLocaleString()
+            }
+            chatData.value.push(newMessage1)
+        })
+        .catch(error => {
+            console.error(error)
+        }).finally(() => {
+            callFlag.value = false
+            nextTickChatContainer()
+        });
     //清除信息和文件并回到底部
     inputValue.value = ''
     reset()
     nextTickChatContainer()
-
 }
 //移动到对话底部
 const nextTickChatContainer = () => {
@@ -149,11 +174,13 @@ const nextTickChatContainer = () => {
 
 <style >
 /* 对话弹出动画效果*/
-.list-enter-active, .list-leave-active {
+.list-enter-active,
+.list-leave-active {
     transition: all 0.5s ease;
 }
 
-.list-enter-from, .list-leave-to {
+.list-enter-from,
+.list-leave-to {
     opacity: 0;
     transform: translateY(-30px);
 }
@@ -190,6 +217,7 @@ const nextTickChatContainer = () => {
 
 
 }
+
 .avatar img {
     width: 100%;
     height: 100%;
@@ -203,6 +231,7 @@ const nextTickChatContainer = () => {
     background-color: #f6f6f6;
     font-size: 12px;
 }
+
 .chat-bubble.user-bubble {
     margin-left: auto;
     background-color: #e1f5fe;
@@ -230,6 +259,7 @@ const nextTickChatContainer = () => {
     border-radius: 5px;
     padding: 0 10px;
 }
+
 .input_file {
     height: 30px;
     width: 6vh;
@@ -238,6 +268,7 @@ const nextTickChatContainer = () => {
     padding: 0 10px;
     text-align: center;
 }
+
 .send-btn {
     /*margin-left: 10px;*/
     width: 80px;
@@ -248,6 +279,7 @@ const nextTickChatContainer = () => {
     color: #fff;
     cursor: pointer;
 }
+
 .send-btn:hover {
     background-color: #0c7cd5;
 }
@@ -264,6 +296,7 @@ const nextTickChatContainer = () => {
     color: #666666;
     cursor: not-allowed;
 }
+
 pre {
     background-color: black;
 }
@@ -288,6 +321,7 @@ pre {
 .tool-btn:hover {
     background-color: #e1f5fe;
 }
+
 .tool-img {
     pointer-events: none;
 }
